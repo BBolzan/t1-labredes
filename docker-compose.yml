@@ -1,0 +1,34 @@
+version: '3'
+
+services:
+  device1:
+    build: .
+    container_name: device1
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    networks:
+      - lab_network
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./:/root/T1
+      - /lib/modules:/lib/modules
+
+  device2:
+    build: .
+    container_name: device2
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    networks:
+      - lab_network
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./:/root/T1
+      - /lib/modules:/lib/modules
+
+networks:
+  lab_network:
+    driver: bridge
