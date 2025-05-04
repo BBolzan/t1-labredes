@@ -2,33 +2,30 @@ version: '3'
 
 services:
   device1:
-    build: .
+    image: ghcr.io/sjohann81/labredes:latest
     container_name: device1
+    privileged: true
     cap_add:
       - NET_ADMIN
-    privileged: true
-    networks:
-      - lab_network
+    volumes:
+      - .:/root/T1
     ports:
       - "8080:8080"
-    volumes:
-      - ./:/root/T1
-      - /lib/modules:/lib/modules
+    networks:
+      - lab-t1
 
   device2:
-    build: .
+    image: ghcr.io/sjohann81/labredes:latest
     container_name: device2
+    privileged: true
     cap_add:
       - NET_ADMIN
-    privileged: true
-    networks:
-      - lab_network
+    volumes:
+      - .:/root/T1
     ports:
       - "8081:8080"
-    volumes:
-      - ./:/root/T1
-      - /lib/modules:/lib/modules
+    networks:
+      - lab-t1
 
 networks:
-  lab_network:
-    driver: bridge
+  lab-t1:
