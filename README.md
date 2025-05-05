@@ -43,15 +43,43 @@ Abrir um browser no *host* e acessar a URL "localhost:8080".
 
 ### Criando uma rede
 
-- podman network create lab
+- podman network create t1-lab
 - podman network ls
 
 ### Executando múltiplas instâncias
 
-Executar as intâncias em terminais separados na máquina *host*. Isso deve ser feito para que as mesmas possam ser finalizadas individualmente (com Ctrl+C).
+Executar os containers em terminais separados na máquina *host* (para que possam ser finalizados individualmente com Ctrl+C):
 
-- podman run --cap-add NET_ADMIN --privileged --network lab -p 8080:8080 labredes
-- podman run --cap-add NET_ADMIN --privileged --network lab -p 8081:8080 labredes
-- podman run --cap-add NET_ADMIN --privileged --network lab -p 8082:8080 labredes
+```bash
+# Container 1
+podman run -d --name device1 -v "$(pwd):/root/T1" --cap-add NET_ADMIN --privileged --network t1-lab -p 8081:8080 ghcr.io/sjohann81/labredes
 
-Abrir um browser no *host* e acessar as URL "localhost:8080", "localhost:8081" ... para acessar cada container.
+# Container 2
+podman run -d --name device2 -v "$(pwd):/root/T1" --cap-add NET_ADMIN --privileged --network t1-lab -p 8082:8080 ghcr.io/sjohann81/labredes
+
+# Container 3
+podman run -d --name device3 -v "$(pwd):/root/T1" --cap-add NET_ADMIN --privileged --network t1-lab -p 8083:8080 ghcr.io/sjohann81/labredes
+```
+
+### Acessando os containers
+
+Para acessar o terminal de cada container:
+
+```bash
+podman exec -it device1 /bin/bash
+podman exec -it device2 /bin/bash
+podman exec -it device3 /bin/bash
+```
+
+### Simulando perda de pacotes
+
+Dentro do container, primeiro verifique a interface de rede:
+
+```bash
+ip link show
+```
+
+Abrir um browser no *host* e acessar as URLs:
+- http://localhost:8081/
+- http://localhost:8082/
+- http://localhost:8083/
