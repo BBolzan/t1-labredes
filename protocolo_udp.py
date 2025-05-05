@@ -7,17 +7,16 @@ import random
 import os
 import base64
 import hashlib
-import queue
 from datetime import datetime
 
 # Configuração
 UDP_PORT = 5000
 BROADCAST_ADDR = '255.255.255.255'
 HEARTBEAT_INTERVAL = 25
-DEVICE_TIMEOUT = 35
+DEVICE_TIMEOUT = 120
 ACK_TIMEOUT = 2
 MAX_RETRIES = 10
-CHUNK_SIZE = 50
+CHUNK_SIZE = 250
 
 # Estado global
 device_name = ""

@@ -27,5 +27,18 @@ services:
     networks:
       - lab-t1
 
+  device3:
+    image: ghcr.io/sjohann81/labredes:latest
+    container_name: device3
+    privileged: true
+    cap_add:
+      - NET_ADMIN
+    volumes:
+      - .:/root/T1
+    ports:
+      - "8082:8080"
+    networks:
+      - lab-t1
+
 networks:
   lab-t1:
